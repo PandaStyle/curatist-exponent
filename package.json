@@ -1,0 +1,19 @@
+{
+  "name": "curatist-exponent",
+  "version": "0.0.0",
+  "description": "Hello Exponent!",
+  "author": null,
+  "private": true,
+  "main": "main.js",
+  "dependencies": {
+    "@exponent/vector-icons": "~2.0.3",
+    "exponent": "~11.0.2",
+    "react": "~15.3.2",
+    "react-addons-shallow-compare": "^15.4.1",
+    "react-native": "git+https://github.com/exponentjs/react-native#sdk-11.0.3",
+    "react-native-tab-view": "0.0.40",
+    "react-redux": "^4.4.6",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0"
+  }
+}
