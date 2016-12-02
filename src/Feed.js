@@ -2,8 +2,10 @@
  * Created by nemethzsolt on 11/30/16.
  */
 import React, { Component } from 'react'
-import { View, Text, ActivityIndicator, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, ActivityIndicator, ScrollView, TouchableOpacity, StyleSheet , Image} from 'react-native'
 import { connect } from 'react-redux'
+import Exponent from 'exponent';
+import { Font } from 'exponent';
 
 
 import { actionCreators } from './postsRedux'
@@ -15,6 +17,12 @@ const mapStateToProps = (state) => ({
 });
 
 class Feed extends Component {
+
+    componentDidMount() {
+        Font.loadAsync({
+            'playfair-black': require('../assets/fonts/PlayfairDisplay-Black.ttf')
+        });
+    }
 
     componentWillMount() {
         const {dispatch} = this.props;
@@ -31,22 +39,23 @@ class Feed extends Component {
         dispatch(actionCreators.fetchPosts())
     };
 
-    renderPost = ({_id, title, description}) => {
+    renderPost = ({_id, title, summary,  description, image}) => {
         return (
             <View
                 key={_id}
                 style={styles.post}
             >
-                <View style={styles.postNumber}>
 
-                </View>
                 <View style={styles.postContent}>
-                    <Text>
+                    <Text style={{ fontFamily: 'playfair-black', fontSize: 16 }}>
                         {title}
                     </Text>
                     <Text style={styles.postBody}>
-                        {description}
+                        {summary ? summary : description}
                     </Text>
+                </View>
+                <View style={styles.postNumber}>
+                    <Image style={styles.cardImage} source={{ uri: image ? image : "https://facebook.github.io/react-native/img/header_logo.png"}} />
                 </View>
             </View>
         )
@@ -98,9 +107,11 @@ const styles = StyleSheet.create({
     },
     post: {
         flexDirection: 'row',
+        paddingRight: 10,
+        paddingLeft: 10,
     },
     postNumber: {
-        width: 50,
+        width: 100,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -127,7 +138,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderTopWidth: 1,
         borderTopColor: 'lightgray',
-    }
+    },
+    cardImage: {
+        height: 100,
+        width: 100,
+        borderTopLeftRadius: 3,
+        borderBottomLeftRadius: 3
+    },
 });
 
 export default connect(mapStateToProps)(Feed)
