@@ -29,7 +29,7 @@ const initialLayout = {
     width: Dimensions.get('window').width,
 };
 
-
+const DEFAULT_URL = 'https://m.facebook.com'
 
 class App extends React.Component {
 
@@ -47,6 +47,7 @@ class App extends React.Component {
             { key: '2', icon: 'md-bicycle' },
             { key: '3', icon: 'md-color-palette' },
         ],
+        url: DEFAULT_URL
     };
 
     _handleChangeTab = (index) => {
@@ -55,9 +56,10 @@ class App extends React.Component {
         });
     };
 
-    _handleNavigate = index => {
+    _handleNavigate = (index, url) => {
         this.setState({
             index,
+            url
         });
     };
 
@@ -89,13 +91,13 @@ class App extends React.Component {
                 return <Provider store={store}><Feed/></Provider>;
             case '2':
                 return  <WebView
-                    source={{uri: 'https://github.com/facebook/react-native'}}
+                    source={{uri: this.state.url}}
                     style={{marginTop: 20}}
                 />;
             case '3':
                 return <View style={[ styles.page, { backgroundColor: '#4caf50' } ]}>
                     <TouchableOpacity
-                        onPress={() => this._handleNavigate(0)}
+                        onPress={() => this._handleNavigate(1, 'http://www.google.com')}
                     ><Text>Go to 0</Text></TouchableOpacity>
                     </View>
             default:
