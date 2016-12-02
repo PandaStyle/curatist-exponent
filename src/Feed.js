@@ -20,7 +20,7 @@ class Feed extends Component {
 
     componentDidMount() {
         Font.loadAsync({
-            'playfair-black': require('../assets/fonts/PlayfairDisplay-Black.ttf')
+            'playfair-black': require('../assets/fonts/Domine-Bold.ttf')
         });
     }
 
@@ -46,17 +46,33 @@ class Feed extends Component {
                 style={styles.post}
             >
 
-                <View style={styles.postContent}>
-                    <Text style={{ fontFamily: 'playfair-black', fontSize: 16 }}>
-                        {title}
-                    </Text>
-                    <Text style={styles.postBody}>
+                <View style={styles.header}>
+                    <View style={styles.title}>
+                        <Text style={{fontFamily: 'playfair-black',fontSize: 16, lineHeight: 22}}>{title}</Text>
+                    </View>
+                    <View style={styles.box} />
+                </View>
+                <View style={styles.body}>
+                    <Text>
                         {summary ? summary : description}
                     </Text>
                 </View>
-                <View style={styles.postNumber}>
-                    <Image style={styles.cardImage} source={{ uri: image ? image : "https://facebook.github.io/react-native/img/header_logo.png"}} />
-                </View>
+                   {/* <View style={styles.postHeader}>
+                        <View style={styles.postNumber}>
+                            <Text style={{ fontFamily: 'playfair-black', fontSize: 16 }}>
+                                {title}
+                            </Text>
+                        </View>
+                        <View style={styles.postNumber}>
+                            <Image style={styles.cardImage} source={{ uri: image ? image : "https://facebook.github.io/react-native/img/header_logo.png"}} />
+                        </View>
+                    </View>
+                    <View>
+                        <Text style={styles.postBody}>
+                            {summary ? summary : description}
+                        </Text>
+                    </View>*/}
+
             </View>
         )
     }
@@ -104,12 +120,36 @@ class Feed extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        margin: 5
     },
     post: {
-        flexDirection: 'row',
-        paddingRight: 10,
-        paddingLeft: 10,
+
     },
+    header: {
+        backgroundColor: 'rgba(0,0,0,0.05)',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        margin: 5
+    },
+    box: {
+        flexBasis: 100,
+        height: 100,
+        backgroundColor: 'steelblue',
+
+        flexGrow: 0,
+    },
+
+    title: {
+        flex: 1,
+    },
+    body:{
+        flex: 0,
+        margin: 5,
+        height: 40,
+        overflow: 'hidden'
+    },
+
     postNumber: {
         width: 100,
         justifyContent: 'center',
@@ -122,10 +162,17 @@ const styles = StyleSheet.create({
         paddingVertical: 25,
         paddingRight: 15,
     },
+    postHeader: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     postBody: {
         marginTop: 10,
         fontSize: 12,
         color: 'lightgray',
+        height: 50
     },
     center: {
         flex: 1,
