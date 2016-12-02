@@ -4,7 +4,9 @@ import {
   StyleSheet,
   Text,
   View,
-    Dimensions
+    Dimensions,
+    WebView,
+    TouchableOpacity
 } from 'react-native';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import { Ionicons } from '@exponent/vector-icons';
@@ -53,6 +55,13 @@ class App extends React.Component {
         });
     };
 
+    _handleNavigate = index => {
+        this.setState({
+            index,
+        });
+    };
+
+
     _renderIcon = ({ route }) => {
         return (
             <Ionicons
@@ -77,11 +86,18 @@ class App extends React.Component {
     _renderScene = ({ route }) => {
         switch (route.key) {
             case '1':
-                return <Provider store={store}><Feed /></Provider>;
+                return <Provider store={store}><Feed/></Provider>;
             case '2':
-                return <View style={[ styles.page, { backgroundColor: '#673ab7' } ]} />;
+                return  <WebView
+                    source={{uri: 'https://github.com/facebook/react-native'}}
+                    style={{marginTop: 20}}
+                />;
             case '3':
-                return <View style={[ styles.page, { backgroundColor: '#4caf50' } ]} />;
+                return <View style={[ styles.page, { backgroundColor: '#4caf50' } ]}>
+                    <TouchableOpacity
+                        onPress={() => this._handleNavigate(0)}
+                    ><Text>Go to 0</Text></TouchableOpacity>
+                    </View>
             default:
                 return null;
         }
