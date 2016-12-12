@@ -2,11 +2,12 @@
  * Created by nemethzsolt on 11/30/16.
  */
 import React, { Component } from 'react'
-import { View, Text, ActivityIndicator, ScrollView, TouchableOpacity, StyleSheet , Image} from 'react-native'
+import { View, Text, ActivityIndicator, ScrollView, TouchableOpacity, StyleSheet , Image, Platform} from 'react-native'
 import { connect } from 'react-redux'
 import Exponent from 'exponent';
 import { Font } from 'exponent';
-
+import { Actions } from 'react-native-router-flux';
+import FadeIn from '@exponent/react-native-fade-in-image';
 
 import { actionCreators } from './postsRedux'
 
@@ -39,40 +40,33 @@ class Feed extends Component {
         dispatch(actionCreators.fetchPosts())
     };
 
-    renderPost = ({_id, title, summary,  description, image}) => {
+    _openPostInWebView = (link) => {
+        console.log('---LINK----')
+        console.log(link)
+        Actions.pageOne({postUrl: link});
+    }
+
+    renderPost = ({_id, title, summary,  description, image, link}) => {
         return (
             <View
                 key={_id}
                 style={styles.post}
             >
-
-                <View style={styles.header}>
-                    <View style={styles.title}>
-                        <Text style={{fontFamily: 'playfair-black',fontSize: 16, lineHeight: 22}}>{title}</Text>
-                    </View>
-                    <View style={styles.box} />
-                </View>
-                <View style={styles.body}>
-                    <Text>
-                        {summary ? summary : description}
-                    </Text>
-                </View>
-                   {/* <View style={styles.postHeader}>
-                        <View style={styles.postNumber}>
-                            <Text style={{ fontFamily: 'playfair-black', fontSize: 16 }}>
-                                {title}
-                            </Text>
+                <TouchableOpacity onPress={this._openPostInWebView.bind(this, link)}>
+                    <View style={styles.header}>
+                        <View style={styles.title}>
+                            <Text style={{fontFamily: 'playfair-black',fontSize: 16, lineHeight: 22}}>{title}</Text>
                         </View>
-                        <View style={styles.postNumber}>
-                            <Image style={styles.cardImage} source={{ uri: image ? image : "https://facebook.github.io/react-native/img/header_logo.png"}} />
-                        </View>
+                        <FadeIn placeholderStyle={{backgroundColor: Platform.OS === 'android' ? 'transparent' : '#fff'}} style={styles.fadeInPlaceholder}>
+                            <Image style={styles.box} source={{ uri: image ? image : "https://facebook.github.io/react-native/img/header_logo.png"}} />
+                        </FadeIn>
                     </View>
-                    <View>
-                        <Text style={styles.postBody}>
+                    <View style={styles.body}>
+                        <Text numberOfLines={3}>
                             {summary ? summary : description}
                         </Text>
-                    </View>*/}
-
+                    </View>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -104,14 +98,6 @@ class Feed extends Component {
                 <ScrollView style={styles.container}>
                     {posts.map(this.renderPost)}
                 </ScrollView>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={this.refresh}
-                >
-                    <Text>
-                        Refresh
-                    </Text>
-                </TouchableOpacity>
             </View>
         )
     }
@@ -123,31 +109,35 @@ const styles = StyleSheet.create({
         margin: 5
     },
     post: {
-
+        borderBottomWidth: 1,
+        borderBottomColor: '#EEE',
+        paddingVertical: 25,
     },
     header: {
-        backgroundColor: 'rgba(0,0,0,0.05)',
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center',
         margin: 5
     },
     box: {
-        flexBasis: 100,
-        height: 100,
-        backgroundColor: 'steelblue',
+        flexBasis: 80,
+        height: 80,
+        //backgroundColor: 'steelblue',
 
         flexGrow: 0,
     },
-
+    fadeInPlaceholder: {
+        flexBasis: 80,
+        height: 80,
+    },
     title: {
         flex: 1,
     },
     body:{
         flex: 0,
         margin: 5,
-        height: 40,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        paddingVertical: 5,
     },
 
     postNumber: {
@@ -162,18 +152,6 @@ const styles = StyleSheet.create({
         paddingVertical: 25,
         paddingRight: 15,
     },
-    postHeader: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    postBody: {
-        marginTop: 10,
-        fontSize: 12,
-        color: 'lightgray',
-        height: 50
-    },
     center: {
         flex: 1,
         justifyContent: 'center',
@@ -185,13 +163,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderTopWidth: 1,
         borderTopColor: 'lightgray',
-    },
-    cardImage: {
-        height: 100,
-        width: 100,
-        borderTopLeftRadius: 3,
-        borderBottomLeftRadius: 3
-    },
+    }
 });
 
 export default connect(mapStateToProps)(Feed)
