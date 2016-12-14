@@ -17,12 +17,14 @@ const mapStateToProps = (state) => ({
     posts: state.posts,
 });
 
+Font.loadAsync({
+    'domine': require('../assets/fonts/SofiaProLight-webfont.ttf')
+});
+
 class Feed extends Component {
 
     componentDidMount() {
-        Font.loadAsync({
-            'playfair-black': require('../assets/fonts/Domine-Bold.ttf')
-        });
+
     }
 
     componentWillMount() {
@@ -55,16 +57,16 @@ class Feed extends Component {
                 <TouchableOpacity onPress={this._openPostInWebView.bind(this, link)}>
                     <View style={styles.header}>
                         <View style={styles.title}>
-                            <Text style={{fontFamily: 'playfair-black',fontSize: 16, lineHeight: 22}}>{title}</Text>
+                            <Text style={{fontFamily: 'domine',fontSize: 16, lineHeight: 22}}>{title}</Text>
+                            <View style={styles.body}>
+                                <Text numberOfLines={3}>
+                                    {summary ? summary : description}
+                                </Text>
+                            </View>
                         </View>
                         <FadeIn placeholderStyle={{backgroundColor: Platform.OS === 'android' ? 'transparent' : '#fff'}} style={styles.fadeInPlaceholder}>
                             <Image style={styles.box} source={{ uri: image ? image : "https://facebook.github.io/react-native/img/header_logo.png"}} />
                         </FadeIn>
-                    </View>
-                    <View style={styles.body}>
-                        <Text numberOfLines={3}>
-                            {summary ? summary : description}
-                        </Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -120,22 +122,22 @@ const styles = StyleSheet.create({
         margin: 5
     },
     box: {
-        flexBasis: 80,
-        height: 80,
+        width: 125,
+        height: 130,
         //backgroundColor: 'steelblue',
 
         flexGrow: 0,
     },
     fadeInPlaceholder: {
-        flexBasis: 80,
-        height: 80,
+        width: 125,
+        height: 130,
     },
     title: {
         flex: 1,
     },
     body:{
         flex: 0,
-        margin: 5,
+
         overflow: 'hidden',
         paddingVertical: 5,
     },

@@ -54,7 +54,7 @@ class App extends React.Component {
         return (
             <Provider store={store}>
                 <Router>
-                    <Scene key="root">
+                    <Scene key="root" style={{marginTop: 20}}>
                         <Scene hideNavBar={true} key="scrollabletabview" component={Scroll}>
 
                         </Scene>
@@ -70,7 +70,7 @@ class Scroll extends React.Component  {
     render() {
         return (
             <ScrollableTabView  style={{marginTop: 20, }}
-                                initialPage={1}
+                                initialPage={0}
                                 renderTabBar={() => <FacebookTabBar />}>
 
                 <Feed  tabLabel="ios-list-box" />
