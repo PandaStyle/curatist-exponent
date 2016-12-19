@@ -8,6 +8,7 @@ import Exponent from 'exponent';
 import { Font } from 'exponent';
 import { Actions } from 'react-native-router-flux';
 import FadeIn from '@exponent/react-native-fade-in-image';
+import Colors from './constants/Colors'
 
 import { actionCreators } from './postsRedux'
 
@@ -43,12 +44,10 @@ class Feed extends Component {
     };
 
     _openPostInWebView = (link) => {
-        console.log('---LINK----')
-        console.log(link)
         Actions.pageOne({postUrl: link});
     }
 
-    renderPost = ({_id, title, summary,  description, image, link}) => {
+    renderPost = ({_id, title, summary,  description, feed, diff, image, link}) => {
         return (
             <View
                 key={_id}
@@ -56,12 +55,17 @@ class Feed extends Component {
             >
                 <TouchableOpacity onPress={this._openPostInWebView.bind(this, link)}>
                     <View style={styles.header}>
-                        <View style={styles.title}>
-                            <Text style={{fontFamily: 'domine',fontSize: 16, lineHeight: 22}}>{title}</Text>
-                            <View style={styles.body}>
-                                <Text numberOfLines={3}>
-                                    {summary ? summary : description}
-                                </Text>
+                        <View style={styles.left}>
+                            <View style={styles.title}>
+                                <Text
+                                    style={{fontFamily: 'domine',fontSize: 16, lineHeight: 22}}
+                                    numberOfLines = {3}
+                                    ellipsizeMode = 'tail'
+                                >{title}</Text>
+                            </View>
+                            <View tyle={styles.feed}>
+                                <Text style={{ color: '#dc8a8a'}}>{feed}</Text>
+                                <Text style={{flex:1}}>{diff.substring(0,3)}</Text>
                             </View>
                         </View>
                         <FadeIn placeholderStyle={{backgroundColor: Platform.OS === 'android' ? 'transparent' : '#fff'}} style={styles.fadeInPlaceholder}>
@@ -113,13 +117,19 @@ const styles = StyleSheet.create({
     post: {
         borderBottomWidth: 1,
         borderBottomColor: '#EEE',
-        paddingVertical: 25,
+        marginBottom: 50,
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center',
         margin: 5
+    },
+    left: {
+        flex: 1,
+        marginRight: 20,
+        marginLeft: 10,
+        flexDirection: 'column',
     },
     box: {
         width: 125,
@@ -135,11 +145,11 @@ const styles = StyleSheet.create({
     title: {
         flex: 1,
     },
-    body:{
-        flex: 0,
-
-        overflow: 'hidden',
-        paddingVertical: 5,
+    feed: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
 
     postNumber: {

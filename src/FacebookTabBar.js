@@ -5,9 +5,9 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons, SimpleLineIcons } from '@exponent/vector-icons';
 
-const FacebookTabBar = React.createClass({
+const   FacebookTabBar = React.createClass({
     tabIcons: [],
 
     propTypes: {
@@ -43,9 +43,9 @@ const FacebookTabBar = React.createClass({
         return <View style={[styles.tabs, this.props.style, ]}>
             {this.props.tabs.map((tab, i) => {
                 return <TouchableOpacity key={tab} onPress={() => this.props.goToPage(i)} style={styles.tab}>
-                    <Icon
+                    <SimpleLineIcons
                         name={tab}
-                        size={30}
+                        size={20}
                         color={this.props.activeTab === i ? 'rgb(59,89,152)' : 'rgb(204,204,204)'}
                         ref={(icon) => { this.tabIcons[i] = icon; }}
                     />
